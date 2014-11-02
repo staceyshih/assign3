@@ -17,6 +17,9 @@ final int GAME_RUN = 2;
 final int GAME_WIN = 3;
 final int GAME_LOSE = 4;
 int gameState;
+int slotState;
+ int i;
+  int j;
 
 // slot state for each slot
 final int SLOT_OFF = 0;
@@ -63,10 +66,34 @@ void draw(){
             fill(0);
             text(i+1, i*spacing, width/3+24);
           }
-          // check mouseClicked() to start the game
+        
+        
           break;
     case GAME_RUN:
           //---------------- put you code here ----
+           
+           for(int count=0;count<16;count++){
+             for(int col=0;col<4;col++){
+               for(int row=0;row<4;row++){
+           if(slot[col][row]==SLOT_BOMB){
+           slot[col][row]=SLOT_BOMB;
+          showSlot(col,row,slot[col][row]);
+           //gameState=GAME_LOSE;
+           }
+             else if(slot[col][row]==SLOT_SAFE)
+             {
+               
+               slot[col][row]=SLOT_OFF;
+ showSlot(col,row,slot[col][row]);          
+ continue;}
+             
+             if(count==(16-bombCount)){
+             //gameState=GAME_WIN;
+             }
+             }
+           }
+           }
+         
 
           // -----------------------------------
           break;
@@ -92,11 +119,28 @@ void setBombs(){
   // initial slot
   for (int col=0; col < nSlot; col++){
     for (int row=0; row < nSlot; row++){
-      slot[col][row] = SLOT_OFF;
+      slotState= SLOT_OFF;
     }
   }
   // -------------- put your code here ---------
   // randomly set bombs
+  
+  
+    for (int col = 0;col<nSlot;col++) { 
+      for(int row=0;row<nSlot;row++){
+       for(int count=bombCount;count>0;count--){
+          
+           i=(int)random(4);
+           j=(int)random(4); 
+          println(bombCount);
+         println(i,j);
+          slotState=SLOT_BOMB;
+
+      }
+    }
+    
+    }
+
 
   // ---------------------------------------
 }
@@ -173,12 +217,34 @@ void mousePressed(){
        mouseX >= ix && mouseX <= ix+sideLength && 
        mouseY >= iy && mouseY <= iy+sideLength){
     
-    // --------------- put you code here -------     
+    // --------------- put you code here -------  
+if(mouseButton==RIGHT){
+for(int count=0;count<16;count++ ){
+
+  int colc=(mouseX-ix)/SLOT_SIZE;
+  int rowc=(mouseY-iy)/SLOT_SIZE;
+if(slot[colc][rowc]==SLOT_BOMB){
+
+ showSlot(colc,rowc,slot[colc][rowc]);
+ //gameState=GAME_LOSE;
+}
+if(slot[colc][rowc]==SLOT_OFF){
+  showSlot(colc,rowc,slot[colc][rowc]);
+slot[colc][rowc]=SLOT_SAFE;
+//gameState=GAME_RUN;
+}
+  
+  
+}
+
+}
+       }
+
 
     // -------------------------
     
   }
-}
+
 
 // press enter to start
 void keyPressed(){
